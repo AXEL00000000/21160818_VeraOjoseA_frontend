@@ -1,12 +1,31 @@
+<script setup lang="ts">
+import { useRoute, useRouter } from 'vue-router'
+import { logout, usuarioActual } from '@/services/auth.service'
+
+const route = useRoute()
+const router = useRouter()
+
+// Cierra sesión y regresa al login
+const salir = () => {
+  logout()
+  router.push('/login')
+}
+</script>
+
 <template>
   <header>
     <h1>Panel de administración</h1>
     <p>Servicios Web · Jose Axel Vera Ortiz · 21160818</p>
   </header>
-  <nav>
+  <!-- El menú solo se muestra con sesión iniciada -->
+  <nav v-if="route.path !== '/login'">
     <RouterLink to="/roles">Roles</RouterLink>
     <RouterLink to="/usuarios">Usuarios</RouterLink>
     <RouterLink to="/empleados">Empleados</RouterLink>
+    <span class="sesion">
+      Sesión: <strong>{{ usuarioActual() }}</strong>
+      <button class="salir" @click="salir">Cerrar sesión</button>
+    </span>
   </nav>
   <main>
     <RouterView />
@@ -33,18 +52,40 @@ header p {
   margin: 0.3rem 0 0;
   color: #78716c;
 }
+/* Menú: la sección activa se rellena de morado */
 nav {
   display: flex;
-  gap: 1.5rem;
-  padding: 0.8rem 2rem;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.6rem 2rem;
   background: #ede9fe;
 }
 nav a {
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
   font-weight: bold;
   text-decoration: none;
 }
 nav a.router-link-active {
-  text-decoration: underline;
+  background: #7c3aed;
+  color: #fff;
+}
+/* Usuario y botón de cerrar sesión */
+.sesion {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  margin-left: auto;
+  color: #52525b;
+}
+.salir {
+  border-color: #7c3aed;
+  background: #7c3aed;
+  color: #fff;
+}
+.salir:hover {
+  border-color: #6d28d9;
+  background: #6d28d9;
 }
 main {
   max-width: 850px;
@@ -80,6 +121,8 @@ button {
   border-radius: 6px;
   background: transparent;
   color: #ef4444;
+  font: inherit;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 button:hover {
@@ -114,5 +157,22 @@ input[type='checkbox'] {
   border-radius: 6px;
   background: #fee2e2;
   color: #b91c1c;
+}
+/* Links que se ven como botones */
+td a,
+main > a {
+  display: inline-block;
+  margin-right: 0.3rem;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid #7c3aed;
+  border-radius: 6px;
+  color: #7c3aed;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+td a:hover,
+main > a:hover {
+  background: #7c3aed;
+  color: #fff;
 }
 </style>

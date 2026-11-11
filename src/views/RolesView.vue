@@ -50,8 +50,8 @@ onMounted(cargarRoles)
         <td>{{ rol.name }}</td>
         <td>{{ rol.description }}</td>
         <td>
-          <RouterLink :to="`/roles/${rol.id}`">Ver</RouterLink> |
-          <RouterLink :to="`/roles/${rol.id}/editar`">Editar</RouterLink> |
+          <RouterLink :to="`/roles/${rol.id}`">Ver</RouterLink> 
+          <RouterLink :to="`/roles/${rol.id}/editar`">Editar</RouterLink> 
           <button @click="eliminar(rol)">Eliminar</button>
         </td>
       </tr>

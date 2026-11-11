@@ -61,8 +61,8 @@ onMounted(cargarUsuarios)
         <td>{{ nombreRol(usuario.role_id) }}</td>
         <td>{{ usuario.is_active ? 'Sí' : 'No' }}</td>
         <td>
-          <RouterLink :to="`/usuarios/${usuario.id}`">Ver</RouterLink> |
-          <RouterLink :to="`/usuarios/${usuario.id}/editar`">Editar</RouterLink> |
+          <RouterLink :to="`/usuarios/${usuario.id}`">Ver</RouterLink> 
+          <RouterLink :to="`/usuarios/${usuario.id}/editar`">Editar</RouterLink> 
           <button @click="eliminar(usuario)">Eliminar</button>
         </td>
       </tr>

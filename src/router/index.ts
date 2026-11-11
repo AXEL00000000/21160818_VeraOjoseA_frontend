@@ -8,11 +8,14 @@ import UsuarioFormView from '@/views/UsuarioFormView.vue'
 import EmpleadosView from '@/views/EmpleadosView.vue'
 import EmpleadoDetalleView from '@/views/EmpleadoDetalleView.vue'
 import EmpleadoFormView from '@/views/EmpleadoFormView.vue'
+import LoginView from '@/views/LoginView.vue'
+import { estaLogueado } from '@/services/auth.service'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', redirect: '/roles' },
+    { path: '/login', component: LoginView },
 
     // Roles
     { path: '/roles', component: RolesView },
@@ -31,7 +34,14 @@ const router = createRouter({
     { path: '/empleados/nuevo', component: EmpleadoFormView },
     { path: '/empleados/:id', component: EmpleadoDetalleView },
     { path: '/empleados/:id/editar', component: EmpleadoFormView },
+    
   ],
+})
+
+// Protección de rutas: sin sesión solo se puede entrar al login
+router.beforeEach((to) => {
+  if (to.path !== '/login' && !estaLogueado()) return '/login'
+  if (to.path === '/login' && estaLogueado()) return '/roles'
 })
 
 export default router
